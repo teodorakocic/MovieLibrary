@@ -82,14 +82,22 @@ impl Component for MovieCard {
             <div class={classes!("columns", "is-mobile", "is-gapless", "is-marginless", movie_class)}>
                 <div class="column is-6">
                     <div class="columns is-gapless is-marginless movie-group">
-                        <div class="column is-7 movie-name">{ctx.props().movie.name.clone()}</div>
-                        <div class="column is-5 movie-genre">{ctx.props().movie.genre.clone()}</div>
+                        <div class="column is-7 movie-name">
+                            {ctx.props().movie.name.clone()}
+                        </div>
+                        <div class="column is-5 movie-genre">
+                            {ctx.props().movie.genre.clone()}
+                        </div>
                     </div>
                 </div>
                 <div class="column is-6">
                     <div class="columns is-gapless is-marginless">
-                        <div class="column is-3 is-size-6 movie-rating">{ctx.props().movie.rating.clone()}</div>
-                        <div class="column is-9 gray4 has-text-right movie-actors">{ctx.props().movie.actors.clone()}</div>
+                        <div class="column is-3 is-size-6 movie-rating">
+                            {ctx.props().movie.rating.clone()}
+                        </div>
+                        <div class="column is-9 gray4 has-text-right movie-actors">
+                            {ctx.props().movie.actors.clone()}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -198,6 +206,9 @@ impl Component for MovieList {
                   <div class="columns is-mobile is-gapless is-marginless is-clearfix">
                      <div class="column is-6"><div class="columns is-gapless is-marginless movie-group">
                         {show_table_head!("column is-7 movie-name", SortByName, ByName, "name")}
+                        <div class="column is-1 gray4 movie-genre">
+                            <div class="has-text-weight-bold has-text-right">{"genre"}</div>
+                        </div>
                      </div></div>
                      <div class="column is-6"><div class="columns is-gapless is-marginless">
                         {show_table_head!("column is-3 movie-rating", SortByRating, ByRating, "✫")}
