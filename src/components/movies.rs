@@ -9,6 +9,7 @@ pub enum Msg {
     Search,
     SortByName,
     SortByRating,
+    SortByGenre,
     SetSort(Sort),
 }
 
@@ -108,6 +109,7 @@ impl Component for MovieCard {
 #[derive(PartialEq)]
 pub enum Sort {
     ByName,
+    ByGenre,
     ByRating,
 }
 
@@ -127,7 +129,7 @@ impl Component for MovieList {
             movies: movies_vector(),
             search: Rc::new("".to_string()),
             search_input: NodeRef::default(),
-            sort: Sort::ByRating,
+            sort: Sort::ByGenre,
         }
     }
 
@@ -160,6 +162,9 @@ impl Component for MovieList {
             Msg::SortByName => {
                 sort!(ByName);
             }
+            Msg::SortByGenre => {
+                sort!(ByGenre);
+            }
             Msg::SortByRating => {
                 sort!(ByRating);
             }
@@ -167,6 +172,7 @@ impl Component for MovieList {
                 self.sort = m;
                 match self.sort {
                     Sort::ByName => self.movies.sort_by(|a, b| a.name.cmp(&b.name)),
+                    Sort::ByGenre => self.movies.sort_by(|a, b| a.genre.cmp(&b.genre)),
                     Sort::ByRating => self.movies.sort_by(|a, b| b.rating.cmp(&a.rating)),
                 }
                 ctx.link().send_message(Msg::Search);
@@ -203,20 +209,22 @@ impl Component for MovieList {
                 <br/>
                 <div style="border-bottom: 2px solid #634a4d; background-color: #3d2d2f;
                             padding: 5px 15px 5px 15px; border-radius: 20px">
-                  <div class="columns is-mobile is-gapless is-marginless is-clearfix">
-                     <div class="column is-6"><div class="columns is-gapless is-marginless movie-group">
-                        {show_table_head!("column is-7 movie-name", SortByName, ByName, "name")}
-                        <div class="column is-1 gray4 movie-genre">
-                            <div class="has-text-weight-bold has-text-right">{"genre"}</div>
+                    <div class="columns is-mobile is-gapless is-marginless is-clearfix">
+                        <div class="column is-6">
+                            <div class="columns is-gapless is-marginless movie-group">
+                                {show_table_head!("column is-7 movie-name", SortByName, ByName, "name")}
+                                {show_table_head!("column is-5 skill-title", SortByGenre, ByGenre, "genre")}
+                            </div>
                         </div>
-                     </div></div>
-                     <div class="column is-6"><div class="columns is-gapless is-marginless">
-                        {show_table_head!("column is-3 movie-rating", SortByRating, ByRating, "✫")}
-                        <div class="column is-9 gray4 movie-actors">
-                            <div class="has-text-weight-bold has-text-right">{"actors"}</div>
+                        <div class="column is-6">
+                            <div class="columns is-gapless is-marginless">
+                                {show_table_head!("column is-3 movie-rating", SortByRating, ByRating, "✫")}
+                                <div class="column is-9 gray4 movie-actors">
+                                    <div class="has-text-weight-bold has-text-right">{"actors"}</div>
+                                </div>
+                            </div>
                         </div>
-                     </div></div>
-                  </div>
+                    </div>
                 </div>
                 <div style="padding: 0px 15px 0px 15px">
                     { for self.movies.iter().map(|m|
